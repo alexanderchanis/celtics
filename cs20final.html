@@ -1,0 +1,149 @@
+<!doctype html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="google-signin-client_id" content="90041088162-9e2p061sdm56nahk3oda3i7o803bh8v1.apps.googleusercontent.com">
+<script src="https://apis.google.com/js/platform.js" async defer></script>
+<title>Celtics</title>
+
+<link href="https://fonts.googleapis.com/css?family=Cardo:400,700|Oswald" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+        html {
+                background: linear-gradient(180deg, #007A33 0%, #fff 100%);
+        }
+        #navbar {
+                overflow: hidden;
+                background-color: #000;
+                padding: 30px 10px;
+                transition: 0.4s;
+                position: fixed;
+                width: 100%;
+                top: 0;
+                z-index: 99;
+        }
+        #navbar a {
+                color: white;
+                text-align: center;
+                margin: 0 auto;
+                margin-right: 55px;
+                margin-top: 26px;
+                text-decoration: none;
+                font-size: 18px;
+                line-height: 25px;
+                border-radius: 4px;
+                font-family: 'Oswald', sans-serif;
+                font-weight: 400;
+                display: inline-block;
+        }
+        #navbar #logo {
+                width: 150px;
+                height: 150px;
+                transition: 0.4s;
+                margin-left: 10px;
+                margin-right: 18px;
+        }
+        #navbar a:hover {
+                background-color: green;
+        }
+        #tabs {
+                float: right;
+        }
+        #navbar .icon {
+                display: none;
+        }
+        
+        @media screen and (max-width: 580px) {
+                #navbar #logo {
+                        display: none;
+                }
+                #navbar {
+                        padding: 20px 10px !important;
+                }
+                #navbar a:not(:first-child) {
+                        float: left;
+                        display: none;
+                        text-align: left;
+                        margin-left: 45px;
+                        margin-top: 20px;
+                }
+                #navbar a:first-child {
+                        margin-top: auto;
+                        margin-left: 45px;
+                        text-align: center;
+                }
+                #tabs {
+                        float: none;
+                }
+                #navbar.responsive a.icon {
+                        position: absolute;
+                        right: 0;
+                        top: 0;
+                }
+                #navbar.responsive a {
+                        float: none;
+                        margin-right: 60%;
+                        display: block;
+                        text-align: left;
+                }
+                #navbar a.icon {
+                        float: right;
+                        display: inline-block;
+                        margin-right: 40px;
+                        position: absolute;
+                        right: 0;
+                        top: 0;
+                }
+        }
+</style>
+</head>
+<body style="margin:0;padding:0;">
+        
+        <div id="navbar">
+                <img src="logo.png" alt="Boston Celtics" id="logo" width="150px" height="150px">
+                <div id="tabs">
+                        <a href='#home' class='tab'>HOME</a>
+                        <a href='#nextgame' class='tab'>UPCOMING GAME</a>
+                        <a href='#players' class='tab'>PLAYERS</a>
+                        <a href='#past' class='tab'>PAST GAMES</a>
+                        <a href="javascript" class="icon" onclick="burger()">
+                        <i class="fa fa-bars"></i></a>
+                </div>
+        </div>
+        
+        <div style="margin-top:210px;padding:15px 15px 2500px;font-size:30px">
+                <div class="g-signin2" data-onsuccess="onSignIn">sieofniosneiofnasoifn</div>
+  <p>Lorem ipsum dolor dummy text to enable scrolling, sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+  <p>Lorem ipsum dolor dummy text to enable scrolling, sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+  <p>SLorem ipsum dolor dummy text to enable scrolling, sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+  <p>Lorem ipsum dolor dummy text to enable scrolling, sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum..</p>
+  <p>Lorem ipsum dolor dummy text to enable scrolling, sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+</div>
+        
+<script>
+        window.onscroll = function() {scrollingHeader()};
+        
+        function scrollingHeader() {
+                if (document.body.scrollTop > 80 || document.documentElement.scrollTop > 80) {
+                        document.getElementById("navbar").style.padding = "10px 10px";
+                        document.getElementById("logo").style.width = "80px";
+                        document.getElementById("logo").style.height = "80px";
+                } else {
+                        document.getElementById("navbar").style.padding = "30px 10px";
+                        document.getElementById("logo").style.width = "150px";
+                        document.getElementById("logo").style.height = "150px";
+                }
+        }
+        
+        function burger() {
+                var nav = document.getElementById("navbar");
+                if (!nav.classList.contains("responsive")) {
+                        nav.classList.add("responsive");
+                } else {
+                        nav.classList.remove("responsive");
+                }
+}
+</script>
+        
+</body>
+</html>
