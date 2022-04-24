@@ -8,9 +8,11 @@
 
 <link href="https://fonts.googleapis.com/css?family=Cardo:400,700|Oswald" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<script defer src="https://unpkg.com/smoothscroll-polyfill@0.4.4/dist/smoothscroll.min.js"></script>
 <style>
         html {
                 background: linear-gradient(180deg, #007A33 0%, #fff 100%);
+                scroll-behavior: smooth;
         }
         #navbar {
                 overflow: hidden;
@@ -27,6 +29,7 @@
                 text-align: center;
                 margin: 0 auto;
                 margin-right: 55px;
+                padding: 10px 10px;
                 margin-top: 26px;
                 text-decoration: none;
                 font-size: 18px;
@@ -36,6 +39,19 @@
                 font-weight: 400;
                 display: inline-block;
         }
+         #navbar .g-signin2 {
+                 text-align: center;
+                 margin: 0 auto;
+                 margin-right: 55px;
+                 padding: 10px 10px;
+                 margin-top: 26px;
+                 text-decoration: none;
+                 line-height: 25px;
+                 border-radius: 4px;
+                 display: inline-block;
+                 font-family: 'Oswald', sans-serif;
+                 font-weight: 400;
+         }
         #navbar #logo {
                 width: 150px;
                 height: 150px;
@@ -57,10 +73,16 @@
                 #navbar #logo {
                         display: none;
                 }
+                #login {
+                        display: none;
+                }
+                #login::after {
+                        content: "SIGN IN";
+                }
                 #navbar {
                         padding: 20px 10px !important;
                 }
-                #navbar a:not(:first-child) {
+                #navbar a:not(:first-child), #navbar .g-sign2 {
                         float: left;
                         display: none;
                         text-align: left;
@@ -86,6 +108,12 @@
                         display: block;
                         text-align: left;
                 }
+                #navbar.responsive .g-signin2 {
+                        float: none;
+                        margin-right: auto;
+                        display: block;
+                        text-align: left;
+                }
                 #navbar a.icon {
                         float: right;
                         display: inline-block;
@@ -106,18 +134,22 @@
                         <a href='#nextgame' class='tab'>UPCOMING GAME</a>
                         <a href='#players' class='tab'>PLAYERS</a>
                         <a href='#past' class='tab'>PAST GAMES</a>
+                        <div class="g-signin2" data-onsuccess="onSignIn">
+                                <img src="loginbig.png" alt="SIGN IN" id="login" onclick="signout()" width="25px" height="25px">
+                        </div>
                         <a href="javascript" class="icon" onclick="burger()">
                         <i class="fa fa-bars"></i></a>
                 </div>
         </div>
         
         <div style="margin-top:210px;padding:15px 15px 2500px;font-size:30px">
-                <div class="g-signin2" data-onsuccess="onSignIn">sieofniosneiofnasoifn</div>
+                <a href="#here">Click to go down page</a>
   <p>Lorem ipsum dolor dummy text to enable scrolling, sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
   <p>Lorem ipsum dolor dummy text to enable scrolling, sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-  <p>SLorem ipsum dolor dummy text to enable scrolling, sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+  <p>Lorem ipsum dolor dummy text to enable scrolling, sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
   <p>Lorem ipsum dolor dummy text to enable scrolling, sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum..</p>
   <p>Lorem ipsum dolor dummy text to enable scrolling, sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+  <div id="here">Link to here </a>
 </div>
         
 <script>
@@ -143,6 +175,15 @@
                         nav.classList.remove("responsive");
                 }
 }
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+
+        document.querySelector(this.getAttribute('href')).scrollIntoView({
+            behavior: 'smooth'
+        });
+    });
+});
 </script>
         
 </body>
