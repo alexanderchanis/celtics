@@ -5,7 +5,33 @@
 <meta name="google-signin-client_id" content="90041088162-9e2p061sdm56nahk3oda3i7o803bh8v1.apps.googleusercontent.com">
 <script src="https://apis.google.com/js/platform.js" async defer></script>
 <title>Celtics</title>
+<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet" type="text/css">
+  <script>
+  var googleUser = {};
+  var startApp = function() {
+    gapi.load('auth2', function(){
+      // Retrieve the singleton for the GoogleAuth library and set up the client.
+      auth2 = gapi.auth2.init({
+        client_id: 'YOUR_CLIENT_ID.apps.googleusercontent.com',
+        cookiepolicy: 'single_host_origin',
+        // Request scopes in addition to 'profile' and 'email'
+        //scope: 'additional_scope'
+      });
+      attachSignin(document.getElementById('customBtn'));
+    });
+  };
 
+  function attachSignin(element) {
+    console.log(element.id);
+    auth2.attachClickHandler(element, {},
+        function(googleUser) {
+          document.getElementById('name').innerText = "Signed in: " +
+              googleUser.getBasicProfile().getName();
+        }, function(error) {
+          alert(JSON.stringify(error, undefined, 2));
+        });
+  }
+  </script>
 <link href="https://fonts.googleapis.com/css?family=Cardo:400,700|Oswald" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <script defer src="https://unpkg.com/smoothscroll-polyfill@0.4.4/dist/smoothscroll.min.js"></script>
@@ -13,6 +39,20 @@
         html {
                 background: linear-gradient(180deg, #007A33 0%, #fff 100%);
                 scroll-behavior: smooth;
+        }
+        #customBtn {
+                border: thin solid #888;
+                box-shadow: 1px 1px 1px grey;
+                
+        }
+        #customBtn:hover {
+                cursor: pointer;
+        }
+        span.buttonText {
+                padding: 10px;
+                color: white;
+                line-height: 25px;
+                border-radius: 4px;
         }
         #navbar {
                 overflow: hidden;
@@ -24,34 +64,18 @@
                 top: 0;
                 z-index: 99;
         }
-        #navbar a {
+        #navbar a, #customBtn {
                 color: white;
                 text-align: center;
                 margin: 0 auto;
                 margin-right: 55px;
                 padding: 10px 10px;
-                margin-top: 26px;
+                margin-top: 22px;
                 text-decoration: none;
-                font-size: 18px;
                 line-height: 25px;
                 border-radius: 4px;
-                font-family: 'Oswald', sans-serif;
-                font-weight: 400;
                 display: inline-block;
         }
-         #navbar .g-signin2 {
-                 text-align: center;
-                 margin: 0 auto;
-                 margin-right: 55px;
-                 padding: 10px 10px;
-                 margin-top: 26px;
-                 text-decoration: none;
-                 line-height: 25px;
-                 border-radius: 4px;
-                 display: inline-block;
-                 font-family: 'Oswald', sans-serif;
-                 font-weight: 400;
-         }
         #navbar #logo {
                 width: 150px;
                 height: 150px;
@@ -64,6 +88,9 @@
         }
         #tabs {
                 float: right;
+                font-size: 18px;
+                font-family: 'Oswald', sans-serif;
+                font-weight: 400;
         }
         #navbar .icon {
                 display: none;
@@ -73,26 +100,24 @@
                 #navbar #logo {
                         display: none;
                 }
-                #login {
-                        display: none;
-                }
-                #login::after {
-                        content: "SIGN IN";
-                }
                 #navbar {
                         padding: 20px 10px !important;
                 }
-                #navbar a:not(:first-child), #navbar .g-sign2 {
+                #navbar a:not(:first-child) {
                         float: left;
                         display: none;
                         text-align: left;
                         margin-left: 45px;
-                        margin-top: 20px;
+                        margin-top: 6px;
                 }
                 #navbar a:first-child {
                         margin-top: auto;
                         margin-left: 45px;
                         text-align: center;
+                }
+                #navbar a:last-child {
+                        margin-left: 45px;
+                        margin-top: 20px;
                 }
                 #tabs {
                         float: none;
@@ -108,7 +133,7 @@
                         display: block;
                         text-align: left;
                 }
-                #navbar.responsive .g-signin2 {
+                #navbar.responsive {
                         float: none;
                         margin-right: auto;
                         display: block;
@@ -134,7 +159,13 @@
                         <a href='#here' class='tab'>UPCOMING GAME</a>
                         <a href='#here' class='tab'>PLAYERS</a>
                         <a href='#here' class='tab'>PAST GAMES</a>
-                        <div class="g-signin2" data-onsuccess="onSignIn">SIGN IN</div>
+                        <div id="gSignInWrapper">
+                                <div id="customBtn" class="customGPlusSignIn">
+                                        <span class="buttonText">SIGN IN</span>
+                                </div>
+                        </div>
+                        <div id="name"></div>
+                        <script>startApp();</script>
                         <a href='#here' class="icon" onclick="burger()">
                         <i class="fa fa-bars"></i></a>
                 </div>
