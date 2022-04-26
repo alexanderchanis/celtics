@@ -135,6 +135,19 @@
                         <a href='#here' class='tab'>PLAYERS</a>
                         <a href='#here' class='tab'>PAST GAMES</a>
                         <div class="g-signin2" data-onsuccess="onSignIn">SIGN IN</div>
+                        <script>
+                        // google sign in function
+                        function onSignIn(googleUser) {
+                                
+                                var profile = googleUser.getBasicProfile();
+                                console.log("ID: " + profile.getId()); // Don't send this directly to your server!
+                                var name = profile.getName());
+                                var email = profile.getEmail();
+
+                                // The ID token you need to pass to your backend:
+                                var id_token = googleUser.getAuthResponse().id_token;
+                        };
+                        </script>
                         <a href='#here' class="icon" onclick="burger()">
                         <i class="fa fa-bars"></i></a>
                 </div>
