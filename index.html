@@ -25,6 +25,7 @@
                 width: 100%;
                 top: 0;
                 z-index: 99;
+                box-shadow: 0 -6px 10px 5px rgba(0,0,0,0.5);
         }
         #navbar a {
                 color: white;
@@ -142,14 +143,8 @@
                         function onSignIn(googleUser) {
                                 
                                 var profile = googleUser.getBasicProfile();
-                                console.log("ID: " + profile.getId()); // Don't send this directly to your server!
-                                var name = profile.getName();
-                                var email = profile.getEmail();
-                                console.log("email: " + email);
+                                var theEmail = profile.getEmail();
                                 document.cookie = "email=" + email;
-
-                                // The ID token you need to pass to your backend:
-                                var id_token = googleUser.getAuthResponse().id_token;
                         };
                         </script>
                         <a href='#here' class="icon" onclick="burger()">
