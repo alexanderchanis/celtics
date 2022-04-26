@@ -7,9 +7,17 @@ const url = "mongodb+srv://cs20:cs20admin@cluster0.oa3ko.mongodb.net/?retryWrite
 // const jsdom = require("jsdom");
 // const { JSDOM } = jsdom;
 
+const doSomethingAsync = () => {
+  return new Promise(resolve => {
+    setTimeout(() => resolve(), 3000)
+  })
+}
 
+const doSomething = async () => {
+  console.log(await doSomethingAsync())
+}
 
-http.createServer(function (req, res) {
+http.createServer(async function (req, res) {
     // console.log("hi");
     res.writeHead(200, {'Content-Type': 'text/html'});
     MongoClient.connect(url, {useUnifiedTopology: true}, 
@@ -45,6 +53,8 @@ http.createServer(function (req, res) {
         
     })
     res.write("</table>");
+    db.close();
+
 
     // res.write("<script>console.log(document.getElementById('1').innerHTML)</script>");
 
@@ -54,6 +64,6 @@ http.createServer(function (req, res) {
     // </script>
       
     }) 
-
-    //   res.end();
+    await doSomething();
+    res.end();
     }).listen(8080);
