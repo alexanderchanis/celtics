@@ -1,0 +1,400 @@
+<!doctype html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="google-signin-client_id" content="90041088162-2ef9abkopmk2bup2d0vuimjqscvkb6jv.apps.googleusercontent.com">
+<meta name="google-signin-scope" content="profile email">
+<script src="https://apis.google.com/js/platform.js"></script>
+<title>Celtics</title>
+
+<link href="https://fonts.googleapis.com/css?family=Cardo:400,700|Oswald" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<script defer src="https://unpkg.com/smoothscroll-polyfill@0.4.4/dist/smoothscroll.min.js"></script>
+<style>
+        html {
+                background: linear-gradient(180deg, #007A33 0%, #fff 100%);
+                scroll-behavior: smooth;
+        }
+        #navbar {
+                overflow: hidden;
+                background-color: #000;
+                padding: 30px 10px;
+                transition: 0.4s;
+                position: fixed;
+                width: 100%;
+                top: 0;
+                z-index: 99;
+                box-shadow: 0 -6px 10px 5px rgba(0,0,0,0.5);
+        }
+        #navbar a {
+                color: white;
+                text-align: center;
+                margin: 0 auto;
+                margin-right: 55px;
+                padding: 10px 10px;
+                margin-top: 26px;
+                text-decoration: none;
+                font-size: 18px;
+                line-height: 25px;
+                border-radius: 4px;
+                font-family: 'Oswald', sans-serif;
+                font-weight: 400;
+                display: inline-block;
+        }
+         #navbar .g-signin2 {
+                 text-align: center;
+                 margin: 0 auto;
+                 margin-right: 55px;
+                 padding: 10px 10px;
+                 margin-top: 26px;
+                 text-decoration: none;
+                 line-height: 25px;
+                 border-radius: 4px;
+                 display: inline-block;
+                 font-family: 'Oswald', sans-serif;
+                 font-weight: 400;
+         }
+        #navbar #logo {
+                width: 150px;
+                height: 150px;
+                transition: 0.4s;
+                margin-left: 10px;
+                margin-right: 18px;
+        }
+        #navbar a:hover {
+                background-color: green;
+        }
+        #tabs {
+                float: right;
+        }
+        #navbar .icon {
+                display: none;
+        }
+        
+        @media screen and (max-width: 580px) {
+                #navbar #logo {
+                        display: none;
+                }
+                #login {
+                        display: none;
+                }
+                #login::after {
+                        content: "SIGN IN";
+                }
+                #navbar {
+                        padding: 20px 10px !important;
+                }
+                #navbar a:not(:first-child), #navbar .g-sign2 {
+                        float: left;
+                        display: none;
+                        text-align: left;
+                        margin-left: 45px;
+                        margin-top: 20px;
+                }
+                #navbar a:first-child {
+                        margin-top: auto;
+                        margin-left: 45px;
+                        text-align: center;
+                }
+                #tabs {
+                        float: none;
+                }
+                #navbar.responsive a.icon {
+                        position: absolute;
+                        right: 0;
+                        top: 0;
+                }
+                #navbar.responsive a {
+                        float: none;
+                        margin-right: 60%;
+                        display: block;
+                        text-align: left;
+                }
+                #navbar.responsive .g-signin2 {
+                        float: none;
+                        margin-right: auto;
+                        display: block;
+                        text-align: left;
+                }
+                #navbar a.icon {
+                        float: right;
+                        display: inline-block;
+                        margin-right: 40px;
+                        position: absolute;
+                        right: 0;
+                        top: 0;
+                }
+        }
+
+
+.mySlides {display: none}
+img {vertical-align: middle;}
+
+/* Slideshow container */
+.slideshow-container {
+  max-width: 600px;
+  position: relative;
+  margin: auto;
+}
+
+/* Next & previous buttons */
+.prev, .next {
+  cursor: pointer;
+  position: absolute;
+  top: 50%;
+  width: auto;
+  padding: 16px;
+  margin-top: -22px;
+  color: rgb(255, 255, 255);
+  font-weight: bold;
+  font-size: 18px;
+  transition: 0.5s ease;
+  border-radius: 3px;
+  user-select: none;
+}
+
+/* Position the "next button" to the right */
+.next {
+  right: 0;
+}
+
+/* On hover, add a green background color */
+.prev:hover, .next:hover {
+  background-color: rgba(0, 122, 51);
+}
+
+/* Caption text */
+.text {
+  color: #f2f2f2;
+  font-size: 30px;
+  padding: 10px 12px;
+  position: absolute;
+  bottom: 0px;
+  width: 96%;
+  text-align: center;
+  background-color: rgba(139, 111, 78, 0.9);
+  opacity: 0.8;
+}
+
+/* Number text (1/3 etc) */
+.numbertext {
+  color: #f2f2f2;
+  font-size: 12px;
+  padding: 8px 12px;
+  position: absolute;
+  top: 0;
+}
+
+/* Fading animation */
+.fade {
+  animation-name: fade;
+  animation-duration: 1.5s;
+}
+
+h3 {
+  text-align: center;
+  font-size: 70px;
+  color: white;
+}
+
+@keyframes fade {
+  from {opacity: .4} 
+  to {opacity: 1}
+}
+
+
+
+</style>
+</head>
+<body style="margin:0;padding:0;">
+        
+        <div id="navbar">
+                <img src="https://i.imgur.com/eBhWtAp.png" alt="Boston Celtics" id="logo" width="150px" height="150px">
+                <div id="tabs">
+                        <a href='#here' class='tab'>HOME</a>
+                        <a href='#here' class='tab'>UPCOMING GAME</a>
+                        <a href='#here' class='tab'>PLAYERS</a>
+                        <a href='#here' class='tab'>PAST GAMES</a>
+                        <div class="g-signin2" data-onsuccess="onSignIn">SIGN IN</div>
+                        <script>
+                        // google sign in function
+                        function onSignIn(googleUser) {
+                                
+                                var profile = googleUser.getBasicProfile();
+                                var theEmail = profile.getEmail();
+                                document.cookie = "email=" + email;
+                        };
+                        </script>
+                        <a href='#here' class="icon" onclick="burger()">
+                        <i class="fa fa-bars"></i></a>
+                </div>
+        </div>
+        
+        <div style="margin-top:20px;padding:15px 15px 50px;font-size:30px">
+            <div style="margin-top:100px;padding:15px 15px 0px;font-size:30px">
+                <h3>Meet Our Players!</h3>
+                <div class="slideshow-container">
+
+                    <div class="mySlides fade">
+                        <div class="numbertext"></div>
+                        <img src="https://i.imgur.com/jABr1vR.jpeg" style="width:100%">
+                        <div class="text">Jayson Tatum</div>
+                    </div>
+                    
+                    <div class="mySlides fade">
+                        <div class="numbertext"></div>
+                        <img src="https://i.imgur.com/p2UDojc.jpeg" style="width:100%">
+                        <div class="text">Jaylen Brown</div>
+                    </div>
+                    
+                    <div class="mySlides fade">
+                        <div class="numbertext"></div>
+                        <img src="https://i.imgur.com/VRxOrkL.jpeg" style="width:100%">
+                        <div class="text">Marcus Smart</div>
+                    </div>
+                    
+                    <div class="mySlides fade">
+                        <div class="numbertext"></div>
+                        <img src="https://i.imgur.com/4r2PfmI.jpeg" style="width:100%">
+                        <div class="text">Robert Williams III</div>
+                    </div>
+                      
+                    <div class="mySlides fade">
+                        <div class="numbertext"></div>
+                        <img src="https://i.imgur.com/cxnIcGI.jpeg" style="width:100%">
+                        <div class="text">Al Horford</div>
+                    </div>
+                    
+                    <div class="mySlides fade">
+                        <div class="numbertext"></div>
+                        <img src="https://i.imgur.com/DAhY7Ju.jpeg" style="width:100%">
+                        <div class="text">Derrick White</div>
+                    </div>
+                      
+                    <div class="mySlides fade">
+                        <div class="numbertext"></div>
+                        <img src="https://i.imgur.com/ODvAK3v.jpeg" style="width:100%">
+                        <div class="text">Grant Williams</div>
+                    </div>
+                      
+                    <div class="mySlides fade">
+                        <div class="numbertext"></div>
+                        <img src="https://i.imgur.com/3wktoFZ.jpeg" style="width:100%">
+                        <div class="text">Daniel Theis</div>
+                    </div>
+                    
+                    <div class="mySlides fade">
+                        <div class="numbertext"></div>
+                        <img src="https://i.imgur.com/uK36j24.jpeg" style="width:100%">
+                        <div class="text">Payton Pritchard</div>
+                    </div>
+                      
+                    <div class="mySlides fade">
+                        <div class="numbertext"></div>
+                        <img src="https://i.imgur.com/BAPV6JU.jpeg" style="width:100%">
+                        <div class="text">Aaron Nesmith</div>
+                    </div>
+                      
+                    <div class="mySlides fade">
+                        <div class="numbertext"></div>
+                        <img src="https://i.imgur.com/IzDgRZC.jpeg" style="width:100%">
+                        <div class="text">Luke Kornet</div>
+                    </div>
+                    
+                    <div class="mySlides fade">
+                        <div class="numbertext"></div>
+                        <img src="https://i.imgur.com/MzjwRdt.jpeg" style="width:100%">
+                        <div class="text">Enes Freedom</div>
+                    </div>
+                      
+                    <div class="mySlides fade">
+                        <div class="numbertext"></div>
+                        <img src="https://i.imgur.com/mXQEG3d.jpeg" style="width:100%">
+                        <div class="text">Malik Fitts</div>
+                    </div>
+                      
+                    <div class="mySlides fade">
+                        <div class="numbertext"></div>
+                        <img src="https://i.imgur.com/yrpEa97.jpeg" style="width:100%">
+                        <div class="text">Nick Stauskas</div>
+                    </div>
+                    
+                    <div class="mySlides fade">
+                        <div class="numbertext"></div>
+                        <img src="https://i.imgur.com/ne5UBWl.jpeg" style="width:100%">
+                        <div class="text">Sam Hauser</div>
+                    </div>
+                      
+                    <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+                    <a class="next" onclick="plusSlides(1)">&#10095;</a>
+                    
+                    </div>
+                    <br>
+                    
+                    
+                    
+                    <script>
+                    let slideIndex = 1;
+                    showSlides(slideIndex);
+                    
+                    function plusSlides(n) {
+                      showSlides(slideIndex += n);
+                    }
+                    
+                    function currentSlide(n) {
+                      showSlides(slideIndex = n);
+                    }
+                    
+                    
+                    function showSlides(n) {
+                      let i;
+                      let slides = document.getElementsByClassName("mySlides");
+                      if (n > slides.length) {slideIndex = 1}    
+                      if (n < 1) {slideIndex = slides.length}
+                      for (i = 0; i < slides.length; i++) {
+                        slides[i].style.display = "none";  
+                      }
+                      slides[slideIndex-1].style.display = "block";  
+                    }
+                    </script>
+                    
+  <div id="here">Link to here </a>
+</div>
+        
+        
+<script>
+        window.onscroll = function() {scrollingHeader()};
+        
+        function scrollingHeader() {
+                if (document.body.scrollTop > 80 || document.documentElement.scrollTop > 80) {
+                        document.getElementById("navbar").style.padding = "10px 10px";
+                        document.getElementById("logo").style.width = "80px";
+                        document.getElementById("logo").style.height = "80px";
+                } else {
+                        document.getElementById("navbar").style.padding = "30px 10px";
+                        document.getElementById("logo").style.width = "150px";
+                        document.getElementById("logo").style.height = "150px";
+                }
+        }
+        
+        function burger() {
+                var nav = document.getElementById("navbar");
+                if (!nav.classList.contains("responsive")) {
+                        nav.classList.add("responsive");
+                } else {
+                        nav.classList.remove("responsive");
+                }
+}
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+
+        document.querySelector(this.getAttribute('href')).scrollIntoView({
+            behavior: 'smooth'
+        });
+    });
+});
+</script>
+        
+</body>
+</html>
