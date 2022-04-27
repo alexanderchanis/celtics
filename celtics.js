@@ -68,67 +68,117 @@ http.createServer(function (req, res) {
 		  fs.readFile(file, function(err, txt) {
     	  res.writeHead(200, {'Content-Type': 'text/html'});
           res.write(txt);
+          res.write('<head><link rel="stylesheet" href="https://github.com/alexanderchanis/celtics/blob/4005e134d27568e1ba1d19fc2be309e6065e065b/ext.css"></head>');
 
             MongoClient.connect(url, async function(err, db) {
      
               if(err) { return console.log(err); return;}
+
+              if (count == 0) {
+                res.write("No Games Today");
+                // document.write("No Games Today");
+            } else {
+                res.write("<div style='text-align: center'><h2>The Boston Celtics are playing tonight!</h2>");
+                res.write("<h3>Vote on who you think will win!</h3></div>")
+                res.write("<form target='_blank' method='post' action='/process'>");
+                res.write("<input type='radio' value='home' id='home' name = 'choice' required>")
+                res.write("<label for='home'>" + home + "</label>")
+                res.write("<input type='radio' value='away' id='away' name='choice'>")
+                res.write("<label for='away'>" + visitor + "</label>")
+                res.write("</br>");
+                res.write("<input type='submit'>");
+                res.write("</form>");
+            }
+        var dbo = db.db("nba");
+        var coll = dbo.collection('users');
+        // console.log(dbo.count("games"));
+        res.write("<div style='text-align: center'><h1>Your Past Picks</h1></div>")
+        res.write("<table style='; width: 100%; border-collapse: collapse; text-align: center'>")
+        res.write("<tr >")
+        res.write("<th >Date</th>");
+        res.write("<th >Home Team</th>");
+        res.write("<th >Visitors Team</th>");
+        res.write("<th >Choice</th>");
+    
+        res.write("</tr>");
+        await coll.find({email: "temp"}).limit(25).forEach(function(doc) {
+                res.write("<tr >");
+                res.write("<td >" + doc["date"] + "</td>");
+                res.write("<td >" + doc["homeTeam"] + "</td>");
+                res.write("<td >" + doc["visitorTeam"] + "</td>");
+                res.write("<td >" + doc["choice"] + "</td>");
+                res.write("</tr>");
+                // result[i] = JSON.stringify(result[i]);
+                // res.write("Company: " + result[i]["company"] + ", Ticker: " + result[i]["ticker"] + "</br>");
+                // res.write(JSON.stringify(result[i]) + "</br>");
+                // console.log(JSON.stringify(result[i]));
+        })
+        res.write("</table>");
+
+                // }) 
+
+
+                var dbo = db.db("nba");
+                var coll = dbo.collection('games');
+                // console.log(dbo.count("games"));
+                res.write("<table id='games' style='; width: 100%; border-collapse: collapse; text-align: center'>")
+                res.write("<tr >")
+                res.write("<th >Home Team</th>");
+                res.write("<th >Home Team Score</th>");
+                res.write("<th >Visitors Team</th>");
+                res.write("<th >Visitors Team Score</th>");
+            
+                res.write("</tr>");
+                await coll.find().limit(25).forEach(function(doc) {
+                        res.write("<tr >");
+                        res.write("<td >" + doc["homeTeam"] + "</td>");
+                        res.write("<td >" + doc["homeTeamScore"] + "</td>");
+                        res.write("<td >" + doc["visitorTeam"] + "</td>");
+                        res.write("<td >" + doc["visitorTeamScore"] + "</td>");
+                        res.write("</tr>");
+                        // result[i] = JSON.stringify(result[i]);
+                        // res.write("Company: " + result[i]["company"] + ", Ticker: " + result[i]["ticker"] + "</br>");
+                        // res.write(JSON.stringify(result[i]) + "</br>");
+                        // console.log(JSON.stringify(result[i]));
+      
+            
+                })    
+            res.write("</table>");
+
+    
+    
               var dbo = db.db("nba");
               var coll = dbo.collection('players');
 			  //res.write("here <br/>");
-              res.write("<table id='players' style='border: 1px solid; width: 100%; border-collapse: collapse'>");        
+              res.write("<table id='players' style='; width: 100%; border-collapse: collapse'>");        
               res.write("<tr>");
-              res.write("<th style='border: 1px solid; width: 40%'> Name </th>");
-              res.write("<th style='border: 1px solid; width: 10%'> PTS </th>");
-              res.write("<th style='border: 1px solid; width: 10%'> REB </th>");
-              res.write("<th style='border: 1px solid; width: 10%'> AST </th>");
-              res.write("<th style='border: 1px solid; width: 10%'> STL </th>");
-              res.write("<th style='border: 1px solid; width: 10%'> BLK </th>");
-              res.write("<th style='border: 1px solid; width: 10%'> TO </th>");
+              res.write("<th style='; width: 40%'> Name </th>");
+              res.write("<th style='; width: 10%'> PTS </th>");
+              res.write("<th style='; width: 10%'> REB </th>");
+              res.write("<th style='; width: 10%'> AST </th>");
+              res.write("<th style='; width: 10%'> STL </th>");
+              res.write("<th style='; width: 10%'> BLK </th>");
+              res.write("<th style='; width: 10%'> TO </th>");
               res.write("</tr>");
       
              await coll.find().forEach(function(doc) {
               // res.write("<table hidden id='" + doc["_id"] + "></table>");
-                // res.write("<table hidden style='border: 1px solid' id='" + doc["_id"] + "></table>");
+                // res.write("<table hidden  id='" + doc["_id"] + "></table>");
       
-              res.write("<tr style='border: 1px solid'>");
-              res.write("<td style='border: 1px solid'>" + doc["Name"] + "</td>");
-              res.write("<td style='border: 1px solid'>" + doc["PTS"] + "</td>");
-              res.write("<td style='border: 1px solid'>" + doc["REB"] + "</td>");
-              res.write("<td style='border: 1px solid'>" + doc["AST"] + "</td>");
-              res.write("<td style='border: 1px solid'>" + doc["STL"] + "</td>");
-              res.write("<td style='border: 1px solid'>" + doc["BLK"] + "</td>");
-              res.write("<td style='border: 1px solid'>" + doc["TO"] + "</td>");
+              res.write("<tr >");
+              res.write("<td >" + doc["Name"] + "</td>");
+              res.write("<td >" + Number.parseFloat(doc["PTS"]).toFixed(1) + "</td>");
+              res.write("<td >" + Number.parseFloat(doc["REB"]).toFixed(1) + "</td>");
+              res.write("<td >" + Number.parseFloat(doc["AST"]).toFixed(1) + "</td>");
+              res.write("<td >" + Number.parseFloat(doc["STL"]).toFixed(1) + "</td>");
+              res.write("<td >" + Number.parseFloat(doc["BLK"]).toFixed(1) + "</td>");
+              res.write("<td >" + Number.parseFloat(doc["TO"]).toFixed(1) + "</td>");
               res.write("</tr>");
               
           })
           res.write("</table>");
         
-           var dbo = db.db("nba");
-          var coll = dbo.collection('games');
-          // console.log(dbo.count("games"));
-          res.write("<table id='games' style='border: 1px solid; width: 100%; border-collapse: collapse; text-align: center'>")
-          res.write("<tr style='border: 1px solid'>")
-          res.write("<th style='border: 1px solid'>Home Team</th>");
-          res.write("<th style='border: 1px solid'>Home Team Score</th>");
-          res.write("<th style='border: 1px solid'>Visitors Team</th>");
-          res.write("<th style='border: 1px solid'>Visitors Team Score</th>");
-      
-          res.write("</tr>");
-          await coll.find().forEach(function(doc) {
-                  res.write("<tr style='border: 1px solid'>");
-                  res.write("<td style='border: 1px solid'>" + doc["homeTeam"] + "</td>");
-                  res.write("<td style='border: 1px solid'>" + doc["homeTeamScore"] + "</td>");
-                  res.write("<td style='border: 1px solid'>" + doc["visitorTeam"] + "</td>");
-                  res.write("<td style='border: 1px solid'>" + doc["visitorTeamScore"] + "</td>");
-                  res.write("</tr>");
-                  // result[i] = JSON.stringify(result[i]);
-                  // res.write("Company: " + result[i]["company"] + ", Ticker: " + result[i]["ticker"] + "</br>");
-                  // res.write(JSON.stringify(result[i]) + "</br>");
-                  // console.log(JSON.stringify(result[i]));
 
-			
-          })    
-		  res.write("</table>");
                 // res.write("</br></br>")
         
                 // result[i] = JSON.stringify(result[i]);
@@ -139,50 +189,10 @@ http.createServer(function (req, res) {
             // <script>
             // res.write(typeof(getElementById("1")));
             // </script>
-              		if (count == 0) {
-            res.write("No Games Today");
-            // document.write("No Games Today");
-        } else {
-            res.write("<div style='text-align: center'><h2>The Boston Celtics are playing tonight!</h2>");
-            res.write("<h3>Vote on who you think will win!</h3></div>")
-            res.write("<form target='_blank' method='post' action='/process'>");
-            res.write("<input type='radio' value='home' id='home' name = 'choice' required>")
-            res.write("<label for='home'>" + home + "</label>")
-            res.write("<input type='radio' value='away' id='away' name='choice'>")
-            res.write("<label for='away'>" + visitor + "</label>")
-            res.write("</br>");
-            res.write("<input type='submit'>");
-            res.write("</form>");
-        }
-    var dbo = db.db("nba");
-    var coll = dbo.collection('users');
-    // console.log(dbo.count("games"));
-    res.write("<div style='text-align: center'><h1>Your Past Picks</h1></div>")
-    res.write("<table style='border: 1px solid; width: 100%; border-collapse: collapse; text-align: center'>")
-    res.write("<tr style='border: 1px solid'>")
-    res.write("<th style='border: 1px solid'>Date</th>");
-    res.write("<th style='border: 1px solid'>Home Team</th>");
-    res.write("<th style='border: 1px solid'>Visitors Team</th>");
-    res.write("<th style='border: 1px solid'>Choice</th>");
-
-    res.write("</tr>");
-    coll.find({email: "temp"}).forEach(function(doc) {
-            res.write("<tr style='border: 1px solid'>");
-            res.write("<td style='border: 1px solid'>" + doc["date"] + "</td>");
-            res.write("<td style='border: 1px solid'>" + doc["homeTeam"] + "</td>");
-            res.write("<td style='border: 1px solid'>" + doc["visitorTeam"] + "</td>");
-            res.write("<td style='border: 1px solid'>" + doc["choice"] + "</td>");
-            res.write("</tr>");
-            // result[i] = JSON.stringify(result[i]);
-            // res.write("Company: " + result[i]["company"] + ", Ticker: " + result[i]["ticker"] + "</br>");
-            // res.write(JSON.stringify(result[i]) + "</br>");
-            // console.log(JSON.stringify(result[i]));
-    })
-            }) 
-
 
           //res.end();
 		  })  
+    })
 	  }
 	  else if (req.url == "/process")
 	  {
