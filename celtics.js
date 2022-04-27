@@ -3,7 +3,6 @@ var fs = require('fs');
 var qs = require('querystring');
 const MongoClient = require('mongodb').MongoClient;
 const url = "mongodb+srv://cs20:cs20admin@cluster0.oa3ko.mongodb.net/?retryWrites=true&w=majority";	// connection string goes here
-//const url = "mongodb+srv://achristie:Croppail1@cluster0.zt269.mongodb.net/cluster0?retryWrites=true&w=majority";
 const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args));
 var port = process.env.PORT || 3000;
 console.log("This goes to the console window");
@@ -126,6 +125,8 @@ http.createServer(function (req, res) {
                   // res.write("Company: " + result[i]["company"] + ", Ticker: " + result[i]["ticker"] + "</br>");
                   // res.write(JSON.stringify(result[i]) + "</br>");
                   // console.log(JSON.stringify(result[i]));
+
+			
           })    
 		  res.write("</table>");
                 // res.write("</br></br>")
@@ -138,30 +139,50 @@ http.createServer(function (req, res) {
             // <script>
             // res.write(typeof(getElementById("1")));
             // </script>
-              
-            }) 
-
-
-		if (count == 0) {
+              		if (count == 0) {
             res.write("No Games Today");
             // document.write("No Games Today");
         } else {
+            res.write("<div style='text-align: center'><h2>The Boston Celtics are playing tonight!</h2>");
+            res.write("<h3>Vote on who you think will win!</h3></div>")
             res.write("<form target='_blank' method='post' action='/process'>");
-            res.write("<input type='radio' value='home' id='home' name = 'choice'>")
-            res.write("<label for='comp'>home</label>")
+            res.write("<input type='radio' value='home' id='home' name = 'choice' required>")
+            res.write("<label for='home'>" + home + "</label>")
             res.write("<input type='radio' value='away' id='away' name='choice'>")
-            res.write("<label for='st'>away</label>")
+            res.write("<label for='away'>" + visitor + "</label>")
             res.write("</br>");
             res.write("<input type='submit'>");
             res.write("</form>");
         }
+    var dbo = db.db("nba");
+    var coll = dbo.collection('users');
+    // console.log(dbo.count("games"));
+    res.write("<div style='text-align: center'><h1>Your Past Picks</h1></div>")
+    res.write("<table style='border: 1px solid; width: 100%; border-collapse: collapse; text-align: center'>")
+    res.write("<tr style='border: 1px solid'>")
+    res.write("<th style='border: 1px solid'>Date</th>");
+    res.write("<th style='border: 1px solid'>Home Team</th>");
+    res.write("<th style='border: 1px solid'>Visitors Team</th>");
+    res.write("<th style='border: 1px solid'>Choice</th>");
 
-
-
+    res.write("</tr>");
+    coll.find({email: "temp"}).forEach(function(doc) {
+            res.write("<tr style='border: 1px solid'>");
+            res.write("<td style='border: 1px solid'>" + doc["date"] + "</td>");
+            res.write("<td style='border: 1px solid'>" + doc["homeTeam"] + "</td>");
+            res.write("<td style='border: 1px solid'>" + doc["visitorTeam"] + "</td>");
+            res.write("<td style='border: 1px solid'>" + doc["choice"] + "</td>");
+            res.write("</tr>");
+            // result[i] = JSON.stringify(result[i]);
+            // res.write("Company: " + result[i]["company"] + ", Ticker: " + result[i]["ticker"] + "</br>");
+            // res.write(JSON.stringify(result[i]) + "</br>");
+            // console.log(JSON.stringify(result[i]));
+    })
+            }) 
 
 
           //res.end();
-		  });
+		  })  
 	  }
 	  else if (req.url == "/process")
 	  {
@@ -183,7 +204,6 @@ http.createServer(function (req, res) {
                 homeTeam: home,
                 visitorTeam: visitor,
                 choice: pdata['choice'],
-                win: "In Progress",
             }
             // console.log(obj);
             
