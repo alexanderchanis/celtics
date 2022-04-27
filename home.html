@@ -235,7 +235,9 @@ h3 {
                                 
                                 var profile = googleUser.getBasicProfile();
                                 var theEmail = profile.getEmail();
-                                document.cookie = "email=" + email;
+                                // document.cookie = "email=" + email;
+                                document.cookie = email;
+
                         };
                         </script>
                         <a href='#here' class="icon" onclick="burger()">

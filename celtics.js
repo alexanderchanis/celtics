@@ -18,6 +18,31 @@ const doSomething = async () => {
 }
 
 
+
+function parseCookies (request) {
+  const list = {};
+  const cookieHeader = request.headers?.cookie;
+  if (!cookieHeader) return list;
+
+  cookieHeader.split(`;`).forEach(function(cookie) {
+      let [ name, ...rest] = cookie.split(`=`);
+      name = name?.trim();
+      if (!name) return;
+      const value = rest.join(`=`).trim();
+      if (!value) return;
+      list[name] = decodeURIComponent(value);
+  });
+  console.log(list);
+  
+
+  return list;
+}
+
+
+
+
+
+
 var temp = new Date();
 // document.write(temp.getDate());  
 var day = temp.getDate();
@@ -68,8 +93,8 @@ http.createServer(function (req, res) {
 		  fs.readFile(file, function(err, txt) {
     	  res.writeHead(200, {'Content-Type': 'text/html'});
           res.write(txt);
-          res.write('<head><link rel="stylesheet" href="https://github.com/alexanderchanis/celtics/blob/4005e134d27568e1ba1d19fc2be309e6065e065b/ext.css"></head>');
-
+          res.write("<link rel='stylesheet' href='https://github.com/alexanderchanis/celtics/blob/main/ext.css'>");
+          res.write("<style>table {width: 100%; color: #000000; font-size:20px;}</style> ")
             MongoClient.connect(url, async function(err, db) {
      
               if(err) { return console.log(err); return;}
@@ -93,7 +118,8 @@ http.createServer(function (req, res) {
         var coll = dbo.collection('users');
         // console.log(dbo.count("games"));
         res.write("<div style='text-align: center'><h1>Your Past Picks</h1></div>")
-        res.write("<table style='; width: 100%; border-collapse: collapse; text-align: center'>")
+        // res.write("<table style='width: 100%; border-collapse: collapse; text-align: center'>")
+        res.write("<table>")
         res.write("<tr >")
         res.write("<th >Date</th>");
         res.write("<th >Home Team</th>");
@@ -117,7 +143,7 @@ http.createServer(function (req, res) {
 
                 // }) 
 
-
+              parseCookies(req);
                 var dbo = db.db("nba");
                 var coll = dbo.collection('games');
                 // console.log(dbo.count("games"));
