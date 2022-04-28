@@ -18,6 +18,31 @@ const doSomething = async () => {
 }
 
 
+
+function parseCookies (request) {
+  const list = {};
+  const cookieHeader = request.headers?.cookie;
+  if (!cookieHeader) return list;
+
+  cookieHeader.split(`;`).forEach(function(cookie) {
+      let [ name, ...rest] = cookie.split(`=`);
+      name = name?.trim();
+      if (!name) return;
+      const value = rest.join(`=`).trim();
+      if (!value) return;
+      list[name] = decodeURIComponent(value);
+  });
+  console.log(list);
+
+
+  return list;
+}
+
+
+
+
+
+
 var temp = new Date();
 // document.write(temp.getDate());  
 var day = temp.getDate();
@@ -68,7 +93,9 @@ http.createServer(function (req, res) {
 		  fs.readFile(file, function(err, txt) {
     	  res.writeHead(200, {'Content-Type': 'text/html'});
           res.write(txt);
-          res.write('<head><link rel="stylesheet" href="https://github.com/alexanderchanis/celtics/blob/4005e134d27568e1ba1d19fc2be309e6065e065b/ext.css"></head>');
+          res.write("<link rel='stylesheet' href='https://github.com/alexanderchanis/celtics/blob/main/ext.css'>");
+          // res.write("<style>table {width: 100%; color: #000000; font-size:20px;} </style> ")
+          res.write("<style>table#players tr:nth-child(even) { background-color:#dddddd;}</style>")
 
             MongoClient.connect(url, async function(err, db) {
      
@@ -93,8 +120,10 @@ http.createServer(function (req, res) {
         var coll = dbo.collection('users');
         // console.log(dbo.count("games"));
         res.write("<div style='text-align: center'><h1>Your Past Picks</h1></div>")
-        res.write("<table style='; width: 100%; border-collapse: collapse; text-align: center'>")
-        res.write("<tr >")
+        // res.write("<table style='width: 100%; border-collapse: collapse; text-align: center'>")
+        res.write("<span id='1'>")
+        res.write("<table>")
+        res.write("<tr style='tr:nth-child(even) {background-color: #f2f2f2;}'>")
         res.write("<th >Date</th>");
         res.write("<th >Home Team</th>");
         res.write("<th >Visitors Team</th>");
@@ -114,10 +143,11 @@ http.createServer(function (req, res) {
                 // console.log(JSON.stringify(result[i]));
         })
         res.write("</table>");
+        res.write("</span>");
 
                 // }) 
 
-
+              // parseCookies(req);
                 var dbo = db.db("nba");
                 var coll = dbo.collection('games');
                 // console.log(dbo.count("games"));
@@ -127,7 +157,6 @@ http.createServer(function (req, res) {
                 res.write("<th >Home Team Score</th>");
                 res.write("<th >Visitors Team</th>");
                 res.write("<th >Visitors Team Score</th>");
-            
                 res.write("</tr>");
                 await coll.find().limit(25).forEach(function(doc) {
                         res.write("<tr >");
@@ -150,7 +179,7 @@ http.createServer(function (req, res) {
               var dbo = db.db("nba");
               var coll = dbo.collection('players');
 			  //res.write("here <br/>");
-              res.write("<table id='players' style='; width: 100%; border-collapse: collapse'>");        
+              res.write("<table id='players' style='width: 100%; border-collapse: collapse'>");        
               res.write("<tr>");
               res.write("<th style='; width: 40%'> Name </th>");
               res.write("<th style='; width: 10%'> PTS </th>");
@@ -177,6 +206,17 @@ http.createServer(function (req, res) {
               
           })
           res.write("</table>");
+
+
+
+          res.write("<form target='_blank' method='post' action='/searchedGames'>");
+          // res.write("<input type='radio' value='home' id='home' name = 'choice' required>")
+          // res.write("<label for='home'>" + home + "</label>")
+          res.write("<input type='text' value='team' id='team' name='team' required>")
+          res.write("<label for='team'>Search for Teams that the Boston Celtics Played This Season</label>")
+          res.write("</br>");
+          res.write("<input type='submit'>");
+          res.write("</form>");
         
 
                 // res.write("</br></br>")
@@ -234,13 +274,80 @@ http.createServer(function (req, res) {
             // console.log()
             res.end();
         });
-
-
-
-
-
-
 	  }
+    else if (req.url == "/searchedGames") {
+      res.writeHead(200, {'Content-Type':'text/html'});
+		//  res.write ("Process the form<br>");
+		 pdata = "";
+		 req.on('data', data => {
+           pdata += data.toString();
+         });
+		
+  
+        // when complete POST data is received
+        req.on('end', () => {
+            pdata = qs.parse(pdata);
+            theTeam = pdata["team"];
+            MongoClient.connect(url, {useUnifiedTopology: true}, 
+              async function(err, db) {
+              if(err) { return console.log(err); return;}
+              var dbo = db.db("nba");
+              var coll = dbo.collection('games');
+              // res.write('<link href="http://fonts.cdnfonts.com/css/athletic" rel="stylesheet">');
+              res.write("<style>html {background: linear-gradient(180deg, #007A33 0%, #fff 100%)}");
+              res.write("@import url('http://fonts.cdnfonts.com/css/athletic');");
+              res.write("@import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@1,100&display=swap');")
+              res.write("h1 {font-family: 'Athletic', sans-serif; font-size: 40px;}");
+              res.write("th {font-family: 'Josefin Sans', sans-serif; font-size: 25px;}")
+              res.write("th {color: #cdcd00;}")
+              res.write("td {font-family: 'Courier New', monospace; font-size: 20px;}</style>")
+              // await coll.insertOne(obj);
+            
+
+            res.write("<div style='text-align: center'><h1>Home Games</h1></div>");
+            res.write("<table id='home' style='width: 100%; border-collapse: collapse; text-align: center'>")
+            res.write("<tr >")
+            res.write("<th style='width:25%'>HOME TEAM</th>");
+            res.write("<th style='width:25%'>HOME TEAM SCORE</th>");
+            res.write("<th style='width:25%'>Visitors Team</th>");
+            res.write("<th style='width:25%'>Visitors Team Score</th>");
+            res.write("</tr>");
+            await coll.find({visitorTeam: theTeam}, {homeTeam: "Boston Celtics"}).limit(25).forEach(function(doc) {
+              res.write("<tr >");
+              res.write("<td >" + doc["homeTeam"] + "</td>");
+              res.write("<td >" + doc["homeTeamScore"] + "</td>");
+              res.write("<td >" + doc["visitorTeam"] + "</td>");
+              res.write("<td >" + doc["visitorTeamScore"] + "</td>");
+              res.write("</tr>");
+            })
+            res.write("</table>");
+
+            res.write("<div style='text-align: center'><h1>Away Games</h1></div>");
+            res.write("<table id='home' style='width: 100%; border-collapse: collapse; text-align: center'>")
+            res.write("<tr >")
+            res.write("<th style='width:25%'>Home Team</th>");
+            res.write("<th style='width:25%'>Home Team Score</th>");
+            res.write("<th style='width:25%'>Visitors Team</th>");
+            res.write("<th style='width:25%'>Visitors Team Score</th>");
+            res.write("</tr>");
+            await coll.find({homeTeam: theTeam}, {visitorTeam: "Boston Celtics"}).limit(25).forEach(function(doc) {
+              res.write("<tr >");
+              res.write("<td >" + doc["homeTeam"] + "</td>");
+              res.write("<td >" + doc["homeTeamScore"] + "</td>");
+              res.write("<td >" + doc["visitorTeam"] + "</td>");
+              res.write("<td >" + doc["visitorTeamScore"] + "</td>");
+              res.write("</tr>");
+            })
+
+            res.write("</table>");
+
+                        
+            
+            db.close();
+          }) 
+
+    });
+  }
 	  else 
 	  {
 		  res.writeHead(200, {'Content-Type':'text/html'});
